@@ -148,6 +148,9 @@ const (
 	// ReasonInvalidConfig indicates that the telemetry configuration is
 	// invalid.
 	ReasonInvalidConfig xpv1.ConditionReason = "InvalidTelemetryConfig"
+	// ReasonNamespaceNotReady indicates that the telemetry controlplane
+	// namespace is not ready.
+	ReasonNamespaceNotReady xpv1.ConditionReason = "NamespaceNotReady"
 )
 
 // SelectorConflict returns a condition that indicates the controlplane is
@@ -171,6 +174,17 @@ func InvalidConfig(msg string) xpv1.Condition {
 		LastTransitionTime: metav1.Now(),
 		Reason:             ReasonInvalidConfig,
 		Message:            msg,
+	}
+}
+
+// NamespaceNotReady returns a condition that indicates the controlplane
+// namespace is not ready.
+func NamespaceNotReady() xpv1.Condition {
+	return xpv1.Condition{
+		Type:               ConditionTypeFailed,
+		Status:             corev1.ConditionTrue,
+		LastTransitionTime: metav1.Now(),
+		Reason:             ReasonNamespaceNotReady,
 	}
 }
 
